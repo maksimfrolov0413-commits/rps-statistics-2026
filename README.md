@@ -4,4 +4,4 @@
 
 ## 📚 Документация
 * [Техническое задание](https://github.com/maksimfrolov0413-commits/rps-statistics-2026/wiki/Техническое-задание)
-* [План проекта «Камень–Ножницы–Бумага» )](https://github.com/maksimfrolov0413-commits/rps-statistics-2026/wiki/План-проекта-%22Камень‐Ножницы‐Бумага-со-статистикой%22)
+* [План проекта «Камень–Ножницы–Бумага»](https://github.com/maksimfrolov0413-commits/rps-statistics-2026/wiki/План-проекта-%22Камень‐Ножницы‐Бумага-со-статистикой%22)
