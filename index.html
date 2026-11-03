@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Камень, ножницы, бумага — игра со статистикой</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <a class="brand" href="index.html" aria-label="Главная страница"><span class="brand-mark" aria-hidden="true">КНБ</span> Игра со статистикой</a>
+      <span class="version">Версия 1.0.0</span>
+    </header>
+    <main>
+      <div class="intro"><p class="eyebrow">ВЫ ПРОТИВ КОМПЬЮТЕРА</p><h1>Камень, ножницы,<br><span>бумага.</span></h1><p>Три варианта. Один ход. Проверьте свою удачу.</p></div>
+      <section class="card game" aria-labelledby="game-title">
+        <div class="section-heading"><h2 id="game-title">Сделайте свой ход</h2><span class="tag">Классические правила</span></div>
+        <div class="choices" role="group" aria-label="Выберите свой ход">
+          <button type="button" class="choice" data-choice="rock" aria-pressed="false"><span class="choice-symbol" aria-hidden="true">✊</span><span>Камень</span><small>Побеждает ножницы</small></button>
+          <button type="button" class="choice" data-choice="scissors" aria-pressed="false"><span class="choice-symbol" aria-hidden="true">✌️</span><span>Ножницы</span><small>Побеждают бумагу</small></button>
+          <button type="button" class="choice" data-choice="paper" aria-pressed="false"><span class="choice-symbol" aria-hidden="true">✋</span><span>Бумага</span><small>Побеждает камень</small></button>
+        </div>
+        <div class="round-result" aria-live="polite" aria-atomic="true">
+          <div class="duel"><div><span class="caption">ВАШ ХОД</span><strong id="player-choice">—</strong></div><span class="versus" aria-hidden="true">×</span><div><span class="caption">ХОД КОМПЬЮТЕРА</span><strong id="computer-choice">—</strong></div></div>
+          <p id="result" class="result">Выберите вариант, чтобы начать</p>
+          <p id="result-hint" class="muted">Каждое нажатие — новый раунд.</p>
+        </div>
+      </section>
+    </main>
+    <footer>Камень бьёт ножницы · Ножницы режут бумагу · Бумага накрывает камень</footer>
+  </div>
+  <script src="game-core.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
