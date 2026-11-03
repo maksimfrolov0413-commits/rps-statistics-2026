@@ -1,32 +1,41 @@
-(function () {
-  'use strict';
-  const { LABELS, RESULTS, createRound, createStatistics, addResult } = window.RPS;
-  let roundNumber = 0;
-  let statistics = createStatistics();
-  const choices = document.querySelectorAll('[data-choice]');
+let wins = 0;
+let losses = 0;
+let draws = 0;
+let roundNumber = 0;
 
-  function play(player) {
-    const round = createRound(player, ++roundNumber);
-    for (const button of choices) {
-      button.setAttribute('aria-pressed', String(button.dataset.choice === player));
+function getResult(player, computer) {
+    if (player === computer) return 'Ничья';
+    if ((player === 'Камень' && computer === 'Ножницы') ||
+        (player === 'Ножницы' && computer === 'Бумага') ||
+        (player === 'Бумага' && computer === 'Камень')) {
+        return 'Победа пользователя';
     }
-    document.getElementById('player-choice').textContent = LABELS[round.player];
-    document.getElementById('computer-choice').textContent = LABELS[round.computer];
-    const result = document.getElementById('result');
-    result.textContent = RESULTS[round.result];
-    result.dataset.result = round.result;
-    document.getElementById('result-hint').textContent = `Раунд ${round.id} завершён. Выберите следующий ход.`;
-    statistics = addResult(statistics, round.result);
-    renderStatistics();
-  }
+    return 'Победа компьютера';
+}
 
-  function renderStatistics() {
-    document.getElementById('wins').textContent = statistics.wins;
-    document.getElementById('losses').textContent = statistics.losses;
-    document.getElementById('draws').textContent = statistics.draws;
-    document.getElementById('rounds').textContent = statistics.rounds;
-    document.getElementById('win-rate').textContent = `${new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 1 }).format(statistics.winRate)}%`;
-  }
+function play(player) {
+    const choices = ['Камень', 'Ножницы', 'Бумага'];
+    const computer = choices[Math.floor(Math.random() * choices.length)];
+    const result = getResult(player, computer);
+    roundNumber++;
 
-  for (const button of choices) button.addEventListener('click', () => play(button.dataset.choice));
-})();
+    document.getElementById('playerChoice').textContent = player;
+    document.getElementById('computerChoice').textContent = computer;
+    document.getElementById('result').textContent = result;
+
+    if (result === 'Победа пользователя') wins++;
+    else if (result === 'Победа компьютера') losses++;
+    else draws++;
+    updateStatistics();
+
+}
+
+function updateStatistics() {
+    const rounds = wins + losses + draws;
+    const percent = rounds === 0 ? 0 : Math.round(wins / rounds * 100);
+    document.getElementById('wins').textContent = wins;
+    document.getElementById('losses').textContent = losses;
+    document.getElementById('draws').textContent = draws;
+    document.getElementById('rounds').textContent = rounds;
+    document.getElementById('winRate').textContent = percent + '%';
+}

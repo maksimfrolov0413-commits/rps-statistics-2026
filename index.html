@@ -1,47 +1,33 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Камень, ножницы, бумага — игра со статистикой</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Камень-Ножницы-Бумага со статистикой</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="page">
-    <header class="page-header">
-      <a class="brand" href="index.html" aria-label="Главная страница"><span class="brand-mark" aria-hidden="true">КНБ</span> Игра со статистикой</a>
-      <span class="version">Версия 1.0.0</span>
-    </header>
-    <main>
-      <div class="intro"><p class="eyebrow">ВЫ ПРОТИВ КОМПЬЮТЕРА</p><h1>Камень, ножницы,<br><span>бумага.</span></h1><p>Три варианта. Один ход. Проверьте свою удачу.</p></div>
-      <section class="card game" aria-labelledby="game-title">
-        <div class="section-heading"><h2 id="game-title">Сделайте свой ход</h2><span class="tag">Классические правила</span></div>
-        <div class="choices" role="group" aria-label="Выберите свой ход">
-          <button type="button" class="choice" data-choice="rock" aria-pressed="false"><span class="choice-symbol" aria-hidden="true">✊</span><span>Камень</span><small>Побеждает ножницы</small></button>
-          <button type="button" class="choice" data-choice="scissors" aria-pressed="false"><span class="choice-symbol" aria-hidden="true">✌️</span><span>Ножницы</span><small>Побеждают бумагу</small></button>
-          <button type="button" class="choice" data-choice="paper" aria-pressed="false"><span class="choice-symbol" aria-hidden="true">✋</span><span>Бумага</span><small>Побеждает камень</small></button>
+    <div class="container">
+        <h1>Камень-Ножницы-Бумага</h1>
+        <p>Выберите свой ход. Каждое нажатие начинает новый раунд.</p>
+        <div class="buttons">
+            <button onclick="play('Камень')">Камень</button>
+            <button onclick="play('Ножницы')">Ножницы</button>
+            <button onclick="play('Бумага')">Бумага</button>
         </div>
-        <div class="round-result" aria-live="polite" aria-atomic="true">
-          <div class="duel"><div><span class="caption">ВАШ ХОД</span><strong id="player-choice">—</strong></div><span class="versus" aria-hidden="true">×</span><div><span class="caption">ХОД КОМПЬЮТЕРА</span><strong id="computer-choice">—</strong></div></div>
-          <p id="result" class="result">Выберите вариант, чтобы начать</p>
-          <p id="result-hint" class="muted">Каждое нажатие — новый раунд.</p>
+        <div aria-live="polite">
+            <p>Ваш выбор: <span id="playerChoice">—</span></p>
+            <p>Выбор компьютера: <span id="computerChoice">—</span></p>
+            <p id="result">Сделайте первый ход.</p>
         </div>
-      </section>
-      <section class="card statistics" aria-labelledby="statistics-title">
-        <div class="section-heading"><h2 id="statistics-title">Ваша статистика</h2><span class="tag">Текущая сессия</span></div>
-        <dl class="stat-grid">
-          <div><dt>Победы</dt><dd id="wins">0</dd></div>
-          <div><dt>Поражения</dt><dd id="losses">0</dd></div>
-          <div><dt>Ничьи</dt><dd id="draws">0</dd></div>
-          <div><dt>Всего раундов</dt><dd id="rounds">0</dd></div>
-          <div class="win-rate"><dt>Процент побед</dt><dd id="win-rate">0%</dd></div>
-        </dl>
-        <p class="muted">Процент побед = ваши победы / все раунды × 100%.</p>
-      </section>
-    </main>
-    <footer>Камень бьёт ножницы · Ножницы режут бумагу · Бумага накрывает камень</footer>
-  </div>
-  <script src="game-core.js" defer></script>
-  <script src="script.js" defer></script>
+        <h2>Статистика</h2>
+        <p>Победы: <span id="wins">0</span></p>
+        <p>Победы компьютера: <span id="losses">0</span></p>
+        <p>Ничьи: <span id="draws">0</span></p>
+        <p>Всего раундов: <span id="rounds">0</span></p>
+        <p>Процент побед: <span id="winRate">0%</span></p>
+
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
