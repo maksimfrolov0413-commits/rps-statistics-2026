@@ -37,6 +37,18 @@ h2 { font-size: 20px; margin: 0; letter-spacing: -.4px; }
 .result[data-result="draw"] { color: #6a56b6; }
 .muted { color: var(--muted); font-size: 13px; margin: 0; }
 footer { padding: 26px 0 32px; text-align: center; color: var(--muted); font-size: 11px; }
+.statistics { margin-top: 20px; }
+.stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); margin: 0 0 18px; gap: 12px; }
+.stat-grid > div { border-right: 1px solid var(--line); padding: 8px 10px 8px 0; }
+.stat-grid > div:last-child { border: 0; }
+.stat-grid dt { font-size: 12px; color: var(--muted); }
+.stat-grid dd { font-size: 32px; font-weight: 750; margin: 4px 0 0; letter-spacing: -1px; }
+.stat-grid .win-rate dd { color: var(--blue); }
+@media (max-width: 600px) {
+  .stat-grid { grid-template-columns: repeat(3, 1fr); row-gap: 14px; }
+  .stat-grid > div { border: 0; }
+  .stat-grid dd { font-size: 27px; }
+}
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 @media (max-width: 600px) {
   .page { padding: 0 16px; }

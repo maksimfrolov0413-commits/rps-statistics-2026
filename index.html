@@ -27,6 +27,17 @@
           <p id="result-hint" class="muted">Каждое нажатие — новый раунд.</p>
         </div>
       </section>
+      <section class="card statistics" aria-labelledby="statistics-title">
+        <div class="section-heading"><h2 id="statistics-title">Ваша статистика</h2><span class="tag">Текущая сессия</span></div>
+        <dl class="stat-grid">
+          <div><dt>Победы</dt><dd id="wins">0</dd></div>
+          <div><dt>Поражения</dt><dd id="losses">0</dd></div>
+          <div><dt>Ничьи</dt><dd id="draws">0</dd></div>
+          <div><dt>Всего раундов</dt><dd id="rounds">0</dd></div>
+          <div class="win-rate"><dt>Процент побед</dt><dd id="win-rate">0%</dd></div>
+        </dl>
+        <p class="muted">Процент побед = ваши победы / все раунды × 100%.</p>
+      </section>
     </main>
     <footer>Камень бьёт ножницы · Ножницы режут бумагу · Бумага накрывает камень</footer>
   </div>

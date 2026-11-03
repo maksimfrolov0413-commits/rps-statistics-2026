@@ -31,7 +31,22 @@
     return { id, player, computer, result: getResult(player, computer), date: date.toISOString() };
   }
 
-  const api = { CHOICES, LABELS, RESULTS, getResult, getComputerChoice, createRound };
+  /** Statistics: wins, losses, draws, rounds и winRate (0..100). */
+  function createStatistics() {
+    return { wins: 0, losses: 0, draws: 0, rounds: 0, winRate: 0 };
+  }
+
+  function addResult(statistics, result) {
+    if (!['win', 'loss', 'draw'].includes(result)) throw new RangeError('Неизвестный результат');
+    const next = { ...statistics };
+    const counter = { win: 'wins', loss: 'losses', draw: 'draws' }[result];
+    next[counter]++;
+    next.rounds = next.wins + next.losses + next.draws;
+    next.winRate = next.rounds ? next.wins / next.rounds * 100 : 0;
+    return next;
+  }
+
+  const api = { CHOICES, LABELS, RESULTS, getResult, getComputerChoice, createRound, createStatistics, addResult };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.RPS = Object.freeze(api);
 })(typeof globalThis !== 'undefined' ? globalThis : this);
