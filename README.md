@@ -55,6 +55,46 @@ CI запускается при push в `main` и Pull Request в `main`. Пр�
 
 Первая стабильная версия: `v1.0.0` (SemVer). Состав версии описывается в [Releases](https://github.com/maksimfrolov0413-commits/rps-statistics-2026/releases).
 
+## Проектирование базы данных (лабораторная работа №4)
+
+Спроектирована реляционная схема SQLite в 3NF для существующей игры:
+
+- `Choices` — три варианта хода.
+- `Rounds` — раунды с датой и независимыми признаками отображения в истории и учёта в статистике.
+- `Round_Choices` — выбор пользователя и компьютера в раунде; составной ключ `(round_id, participant)`.
+
+Результат, история и статистика вычисляются представлениями `Round_Results`, `Game_History` и `Statistics`. В DDL включены первичные и внешние ключи, ограничения и индексы. SQLite пока не подключена к веб-приложению: эта лабораторная работа посвящена проектированию, а игра продолжает работать в памяти страницы.
+
+Материалы:
+
+- [ER-диаграмма PNG](docs/database/er_diagram.png), [SVG](docs/database/er_diagram.svg), [исходник PlantUML](docs/database/er_diagram.puml).
+- [DDL схемы](database/schema.sql) и [тестовые данные](database/seed_data.sql).
+- [Обоснование нормализации 1NF → 2NF → 3NF](database/normalization.md).
+- [Wiki: normalization.md](https://github.com/maksimfrolov0413-commits/rps-statistics-2026/wiki/normalization.md).
+
+Для проверки в установленном SQLite откройте **новую пустую БД** из корня репозитория:
+
+```sh
+sqlite3 rps.db
+```
+
+В консоли SQLite последовательно выполните:
+
+```sql
+.bail on
+.read database/schema.sql
+.read database/seed_data.sql
+PRAGMA foreign_keys;
+PRAGMA integrity_check;
+PRAGMA foreign_key_check;
+SELECT * FROM Statistics;
+SELECT * FROM Game_History ORDER BY played_at DESC, round_id DESC;
+```
+
+Ожидается: `foreign_keys = 1`, `integrity_check = ok`, `foreign_key_check` без строк; в статистике 3 победы пользователя, 3 победы компьютера, 3 ничьи, 9 раундов и около 33.3333% побед. В истории — 9 раундов от последнего к первому. Скрипты рассчитаны на однократное выполнение в новой БД и не удаляют существующие таблицы.
+
+Можно использовать SQLiteOnline из задания: выбрать SQLite и выполнить сначала содержимое `schema.sql`, затем `seed_data.sql`. Команды `.read` и `.bail` относятся только к консоли SQLite, в веб-редактор их переносить не нужно. Для каждого нового подключения включайте `PRAGMA foreign_keys = ON` до начала транзакций.
+
 ## 📚 Документация
 * [Техническое задание](https://github.com/maksimfrolov0413-commits/rps-statistics-2026/wiki/Техническое-задание)
 * [План проекта «Камень–Ножницы–Бумага»](https://github.com/maksimfrolov0413-commits/rps-statistics-2026/wiki/План-проекта-%22Камень‐Ножницы‐Бумага-со-статистикой%22)
