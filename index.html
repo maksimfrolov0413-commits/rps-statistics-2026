@@ -9,7 +9,21 @@
 <body>
   <main class="container">
     <h1>Камень, Ножницы, Бумага</h1>
-    <p>Игра против компьютера со статистикой и историей раундов.</p>
+    <p>Выберите свой ход. Компьютер сделает случайный выбор.</p>
+    <section aria-labelledby="game-title">
+      <h2 id="game-title">Ваш ход</h2>
+      <div class="choices" aria-label="Выбор хода">
+        <button type="button" data-choice="rock">Камень</button>
+        <button type="button" data-choice="scissors">Ножницы</button>
+        <button type="button" data-choice="paper">Бумага</button>
+      </div>
+      <div class="round" aria-live="polite" aria-atomic="true">
+        <p>Вы: <strong id="player-choice">Не выбран</strong></p>
+        <p>Компьютер: <strong id="computer-choice">Не выбран</strong></p>
+        <p id="round-result">Сделайте первый ход.</p>
+      </div>
+      <p class="hint">Следующее нажатие начинает новый раунд.</p>
+    </section>
   </main>
   <script src="script.js"></script>
 </body>
