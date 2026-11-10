@@ -20,12 +20,16 @@ const RPS = (() => {
 
   function createGame(random = Math.random) {
     let lastRound = null;
+    let history = [];
+    let nextRoundId = 1;
     const statistics = { wins: 0, losses: 0, draws: 0, rounds: 0 };
     return {
       play(player) {
         if (!choices.includes(player)) throw new RangeError('Недопустимый ход');
         const computer = computerChoice(random);
-        lastRound = { player, computer, result: determineResult(player, computer), date: new Date().toISOString() };
+        lastRound = { id: nextRoundId, player, computer, result: determineResult(player, computer), date: new Date().toISOString() };
+        nextRoundId += 1;
+        history.push(lastRound);
         statistics.rounds += 1;
         const counter = { win: 'wins', loss: 'losses', draw: 'draws' }[lastRound.result];
         statistics[counter] += 1;
@@ -34,6 +38,20 @@ const RPS = (() => {
       getLastRound() { return lastRound ? { ...lastRound } : null; },
       getStatistics() {
         return { ...statistics, winRate: statistics.rounds === 0 ? 0 : statistics.wins / statistics.rounds * 100 };
+      },
+      getHistory() { return history.map(round => ({ ...round })); },
+      clearHistory() { history = []; },
+      resetStatistics() {
+        statistics.wins = 0;
+        statistics.losses = 0;
+        statistics.draws = 0;
+        statistics.rounds = 0;
+      },
+      newGame() {
+        this.resetStatistics();
+        this.clearHistory();
+        lastRound = null;
+        nextRoundId = 1;
       }
     };
   }
@@ -55,6 +73,20 @@ if (typeof document !== 'undefined') {
       document.getElementById(key).textContent = statistics[key];
     }
     document.getElementById('win-rate').textContent = `${Number(statistics.winRate.toFixed(1))}%`;
+    const history = game.getHistory();
+    const rows = document.createDocumentFragment();
+    for (const item of history.reverse()) {
+      const row = document.createElement('tr');
+      for (const value of [item.id, RPS.labels[item.player], RPS.labels[item.computer], RPS.results[item.result]]) {
+        const cell = document.createElement('td');
+        cell.textContent = value;
+        row.appendChild(cell);
+      }
+      rows.appendChild(row);
+    }
+    document.getElementById('history').replaceChildren(rows);
+    document.getElementById('empty-history').hidden = history.length > 0;
+    document.getElementById('history-table').hidden = history.length === 0;
   }
   document.querySelectorAll('[data-choice]').forEach(button => {
     button.addEventListener('click', () => {
@@ -62,5 +94,15 @@ if (typeof document !== 'undefined') {
       render();
     });
   });
+  for (const [id, action] of [
+    ['reset-statistics', () => game.resetStatistics()],
+    ['clear-history', () => game.clearHistory()],
+    ['new-game', () => game.newGame()]
+  ]) {
+    document.getElementById(id).addEventListener('click', () => {
+      action();
+      render();
+    });
+  }
   render();
 }
