@@ -72,28 +72,19 @@ CI запускается при push в `main` и Pull Request в `main`. Пр�
 - [Обоснование нормализации 1NF → 2NF → 3NF](database/normalization.md).
 - [Wiki: normalization.md](https://github.com/maksimfrolov0413-commits/rps-statistics-2026/wiki/normalization.md).
 
-Для проверки в установленном SQLite откройте **новую пустую БД** из корня репозитория:
+### Скриншоты приложения
 
-```sh
-sqlite3 rps.db
-```
+Главный экран:
 
-В консоли SQLite последовательно выполните:
+![Главный экран приложения](docs/screenshots/app-start.png)
 
-```sql
-.bail on
-.read database/schema.sql
-.read database/seed_data.sql
-PRAGMA foreign_keys;
-PRAGMA integrity_check;
-PRAGMA foreign_key_check;
-SELECT * FROM Statistics;
-SELECT * FROM Game_History ORDER BY played_at DESC, round_id DESC;
-```
+Статистика и история сыгранных раундов:
 
-Ожидается: `foreign_keys = 1`, `integrity_check = ok`, `foreign_key_check` без строк; в статистике 3 победы пользователя, 3 победы компьютера, 3 ничьи, 9 раундов и около 33.3333% побед. В истории — 9 раундов от последнего к первому. Скрипты рассчитаны на однократное выполнение в новой БД и не удаляют существующие таблицы.
+![Приложение после трёх раундов](docs/screenshots/app-rounds.png)
 
-Можно использовать SQLiteOnline из задания: выбрать SQLite и выполнить сначала содержимое `schema.sql`, затем `seed_data.sql`. Команды `.read` и `.bail` относятся только к консоли SQLite, в веб-редактор их переносить не нужно. Для каждого нового подключения включайте `PRAGMA foreign_keys = ON` до начала транзакций.
+### ER-диаграмма базы данных
+
+![ER-диаграмма базы данных](docs/database/er_diagram.png)
 
 ## 📚 Документация
 * [Техническое задание](https://github.com/maksimfrolov0413-commits/rps-statistics-2026/wiki/Техническое-задание)
