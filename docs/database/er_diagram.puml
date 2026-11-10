@@ -1,0 +1,69 @@
+@startuml er_diagram
+!pragma layout smetana
+left to right direction
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName Arial
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam linetype ortho
+skinparam roundcorner 8
+skinparam class {
+  BackgroundColor #F1F6FC
+  BorderColor #24568A
+  ArrowColor #24568A
+  FontColor #172B4D
+}
+hide circle
+title Камень-Ножницы-Бумага: реляционная схема (3NF)
+
+entity "Rounds\nРаунды" as Rounds {
+  * round_id : INTEGER <<PK>>
+  --
+  * played_at : TEXT
+  * history_visible : INTEGER (0/1)
+  * statistics_included : INTEGER (0/1)
+}
+
+entity "Round_Choices\nВыборы участников" as RoundChoices {
+  * round_id : INTEGER <<PK, FK>>
+  * participant : TEXT <<PK>>
+  --
+  * choice_id : TEXT <<FK>>
+}
+
+entity "Choices\nВарианты хода" as Choices {
+  * choice_id : TEXT <<PK>>
+  --
+  * name : TEXT <<UNIQUE>>
+}
+
+Rounds ||--o{ RoundChoices : "содержит"
+RoundChoices }o--|| Choices : "использует"
+
+note bottom of Rounds
+  history_visible: включение в историю
+  statistics_included: включение в статистику
+  Оба признака по умолчанию равны 1.
+end note
+
+note bottom of RoundChoices
+  Составной PK: (round_id, participant).
+  participant: player или computer.
+  Не более одного хода каждой роли.
+  Завершённый раунд имеет два хода;
+  их запись выполняется одной транзакцией.
+end note
+
+note bottom of Choices
+  choice_id: rock, scissors, paper.
+  name: Камень, Ножницы, Бумага.
+end note
+
+legend bottom
+  PK - первичный ключ; FK - внешний ключ; * - NOT NULL.
+  Rounds и Choices связаны M:N через Round_Choices с указанием роли.
+  При ничьей один вариант используется обеими ролями в одном раунде.
+  Представления Round_Results, Game_History и Statistics вычисляют результат и итоги.
+  FK: раунд - ON DELETE CASCADE; вариант хода - ON DELETE RESTRICT.
+endlegend
+@enduml
