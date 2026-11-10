@@ -35,3 +35,20 @@ test('invalid input does not change the completed round', () => {
   assert.throws(() => game.play('invalid'), RangeError);
   assert.deepEqual(game.getLastRound(), round);
 });
+test('zero rounds have zero counters and a finite zero win rate', () => {
+  assert.deepEqual(createGame().getStatistics(), { wins: 0, losses: 0, draws: 0, rounds: 0, winRate: 0 });
+});
+test('statistics count each outcome once and calculate wins / all rounds', () => {
+  const values = [0.5, 0.9, 0];
+  const game = createGame(() => values.shift());
+  game.play('rock');
+  assert.deepEqual(game.getStatistics(), { wins: 1, losses: 0, draws: 0, rounds: 1, winRate: 100 });
+  game.play('rock');
+  assert.deepEqual(game.getStatistics(), { wins: 1, losses: 1, draws: 0, rounds: 2, winRate: 50 });
+  game.play('rock');
+  const statistics = game.getStatistics();
+  assert.deepEqual(statistics, { wins: 1, losses: 1, draws: 1, rounds: 3, winRate: 100 / 3 });
+  assert.equal(statistics.rounds, statistics.wins + statistics.losses + statistics.draws);
+  statistics.wins = 999;
+  assert.equal(game.getStatistics().wins, 1);
+});
