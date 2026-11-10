@@ -47,7 +47,8 @@ test('statistics count each outcome once and calculate wins / all rounds', () =>
   assert.deepEqual(game.getStatistics(), { wins: 1, losses: 1, draws: 0, rounds: 2, winRate: 50 });
   game.play('rock');
   const statistics = game.getStatistics();
-  assert.deepEqual(statistics, { wins: 1, losses: 1, draws: 1, rounds: 3, winRate: 100 / 3 });
+  assert.deepEqual({ ...statistics, winRate: 0 }, { wins: 1, losses: 1, draws: 1, rounds: 3, winRate: 0 });
+  assert.ok(Math.abs(statistics.winRate - 100 / 3) < 1e-10);
   assert.equal(statistics.rounds, statistics.wins + statistics.losses + statistics.draws);
   statistics.wins = 999;
   assert.equal(game.getStatistics().wins, 1);
