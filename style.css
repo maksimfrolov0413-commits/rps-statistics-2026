@@ -31,4 +31,12 @@ button:focus-visible { outline: 3px solid #be6200; outline-offset: 3px; }
 .statistics div { padding: 12px; background: #f4f7fb; border-radius: 8px; }
 dt { font-size: 0.9rem; }
 dd { margin: 8px 0 0; font-size: 1.7rem; font-weight: bold; }
+.section-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+.section-heading h2 { margin-bottom: 0; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+caption { text-align: left; padding-bottom: 12px; color: #4d5c70; }
+th, td { padding: 12px 8px; border-bottom: 1px solid #d9e2ef; }
+th { background: #f4f7fb; }
+.table-scroll:focus-visible { outline: 3px solid #be6200; outline-offset: 3px; }
 @media (max-width: 480px) { section { padding: 16px; } body { padding: 20px 12px; } }

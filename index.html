@@ -33,6 +33,24 @@
         <div><dt>Всего раундов</dt><dd id="rounds">0</dd></div>
         <div><dt>Процент побед</dt><dd id="win-rate">0%</dd></div>
       </dl>
+      <div class="controls">
+        <button type="button" id="reset-statistics">Сбросить статистику</button>
+        <button type="button" id="new-game">Начать заново</button>
+      </div>
+    </section>
+    <section aria-labelledby="history-title">
+      <div class="section-heading">
+        <h2 id="history-title">История раундов</h2>
+        <button type="button" id="clear-history">Очистить историю</button>
+      </div>
+      <p id="empty-history">История пока пуста.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="История раундов">
+        <table id="history-table" hidden>
+          <caption>Сыгранные раунды, начиная с последнего</caption>
+          <thead><tr><th scope="col">Раунд</th><th scope="col">Вы</th><th scope="col">Компьютер</th><th scope="col">Результат</th></tr></thead>
+          <tbody id="history"></tbody>
+        </table>
+      </div>
     </section>
   </main>
   <script src="script.js"></script>
