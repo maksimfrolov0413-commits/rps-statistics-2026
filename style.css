@@ -27,4 +27,8 @@ button:focus-visible { outline: 3px solid #be6200; outline-offset: 3px; }
 .round { margin-top: 20px; padding: 12px 20px; background: #edf4fc; border-radius: 8px; }
 #round-result { font-weight: bold; }
 .hint { color: #4d5c70; font-size: 0.95rem; }
+.statistics { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; }
+.statistics div { padding: 12px; background: #f4f7fb; border-radius: 8px; }
+dt { font-size: 0.9rem; }
+dd { margin: 8px 0 0; font-size: 1.7rem; font-weight: bold; }
 @media (max-width: 480px) { section { padding: 16px; } body { padding: 20px 12px; } }

@@ -20,14 +20,21 @@ const RPS = (() => {
 
   function createGame(random = Math.random) {
     let lastRound = null;
+    const statistics = { wins: 0, losses: 0, draws: 0, rounds: 0 };
     return {
       play(player) {
         if (!choices.includes(player)) throw new RangeError('Недопустимый ход');
         const computer = computerChoice(random);
         lastRound = { player, computer, result: determineResult(player, computer), date: new Date().toISOString() };
+        statistics.rounds += 1;
+        const counter = { win: 'wins', loss: 'losses', draw: 'draws' }[lastRound.result];
+        statistics[counter] += 1;
         return { ...lastRound };
       },
-      getLastRound() { return lastRound ? { ...lastRound } : null; }
+      getLastRound() { return lastRound ? { ...lastRound } : null; },
+      getStatistics() {
+        return { ...statistics, winRate: statistics.rounds === 0 ? 0 : statistics.wins / statistics.rounds * 100 };
+      }
     };
   }
 
@@ -43,6 +50,11 @@ if (typeof document !== 'undefined') {
     document.getElementById('player-choice').textContent = round ? RPS.labels[round.player] : 'Не выбран';
     document.getElementById('computer-choice').textContent = round ? RPS.labels[round.computer] : 'Не выбран';
     document.getElementById('round-result').textContent = round ? RPS.results[round.result] : 'Сделайте первый ход.';
+    const statistics = game.getStatistics();
+    for (const key of ['wins', 'losses', 'draws', 'rounds']) {
+      document.getElementById(key).textContent = statistics[key];
+    }
+    document.getElementById('win-rate').textContent = `${Number(statistics.winRate.toFixed(1))}%`;
   }
   document.querySelectorAll('[data-choice]').forEach(button => {
     button.addEventListener('click', () => {
