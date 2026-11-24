@@ -1,0 +1,31 @@
+@startuml
+title Сбросить статистику
+skinparam defaultFontName "Segoe UI"
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor #294D82
+  LifeLineBorderColor #64748B
+  ParticipantBackgroundColor #EFF6FF
+  ParticipantBorderColor #294D82
+  ParticipantFontColor #14243C
+  ActorBorderColor #294D82
+  ActorFontColor #14243C
+}
+hide footbox
+
+actor "Игрок" as Player
+participant "Интерфейс и обработчики" as UI
+participant "Объект game" as Game
+
+Player -> UI : Нажать «Сбросить статистику»
+UI -> Game : resetStatistics()
+Game -> Game : Обнулить wins, losses, draws, rounds
+UI -> UI : render()
+UI -> Game : getLastRound()
+Game --> UI : Прежний последний раунд или null
+UI -> Game : getStatistics()
+Game --> UI : Нулевые счётчики и winRate = 0
+UI -> Game : getHistory()
+Game --> UI : Текущая история
+UI --> Player : Нули в статистике, прежние история и результат
+@enduml
