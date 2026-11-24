@@ -1,0 +1,44 @@
+@startuml
+title Сыграть раунд
+skinparam defaultFontName "Segoe UI"
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor #294D82
+  LifeLineBorderColor #64748B
+  ParticipantBackgroundColor #EFF6FF
+  ParticipantBorderColor #294D82
+  ParticipantFontColor #14243C
+  ActorBorderColor #294D82
+  ActorFontColor #14243C
+}
+hide footbox
+
+actor "Игрок" as Player
+participant "Интерфейс и обработчики" as UI
+participant "Объект game" as Game
+
+Player -> UI : Нажать кнопку хода
+UI -> Game : play(button.dataset.choice)
+Game -> Game : Проверить ход игрока
+Game -> Game : computerChoice(random)
+Game -> Game : determineResult(player, computer)
+alt Ходы совпадают
+  Game -> Game : Исход draw
+else Ход игрока побеждает
+  Game -> Game : Исход win
+else Ход компьютера побеждает
+  Game -> Game : Исход loss
+end
+Game -> Game : Записать lastRound и увеличить nextRoundId
+Game -> Game : Добавить раунд в history
+Game -> Game : Увеличить rounds и счётчик исхода
+Game --> UI : Копия последнего раунда
+UI -> UI : render()
+UI -> Game : getLastRound()
+Game --> UI : Копия последнего раунда
+UI -> Game : getStatistics()
+Game --> UI : Счётчики и winRate
+UI -> Game : getHistory()
+Game --> UI : Копия истории
+UI --> Player : Ходы, исход, статистика и история
+@enduml

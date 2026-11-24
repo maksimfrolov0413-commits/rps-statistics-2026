@@ -1,0 +1,37 @@
+@startuml
+left to right direction
+skinparam defaultFontName "Segoe UI"
+skinparam shadowing false
+skinparam ArrowColor #334155
+skinparam usecase {
+  BackgroundColor #EFF6FF
+  BorderColor #294D82
+  FontColor #14243C
+}
+
+actor "Игрок" as Player
+rectangle "Камень–Ножницы–Бумага со статистикой" {
+  usecase "Сыграть раунд" as Play
+  usecase "Просмотреть статистику" as ViewStats
+  usecase "Просмотреть историю" as ViewHistory
+  usecase "Сбросить статистику" as ResetStats
+  usecase "Очистить историю" as ClearHistory
+  usecase "Начать заново" as NewGame
+
+  usecase "Определить исход раунда" as Outcome
+  usecase "Обновить счётчики" as UpdateStats
+  usecase "Добавить раунд в историю" as RecordRound
+}
+
+Player -- Play
+Player -- ViewStats
+Player -- ViewHistory
+Player -- ResetStats
+Player -- ClearHistory
+Player -- NewGame
+Play ..> Outcome : <<include>>
+Play ..> UpdateStats : <<include>>
+Play ..> RecordRound : <<include>>
+NewGame ..> ResetStats : <<include>>
+NewGame ..> ClearHistory : <<include>>
+@enduml

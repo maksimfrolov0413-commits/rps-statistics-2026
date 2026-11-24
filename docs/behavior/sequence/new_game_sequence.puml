@@ -1,0 +1,34 @@
+@startuml
+title Начать заново
+skinparam defaultFontName "Segoe UI"
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor #294D82
+  LifeLineBorderColor #64748B
+  ParticipantBackgroundColor #EFF6FF
+  ParticipantBorderColor #294D82
+  ParticipantFontColor #14243C
+  ActorBorderColor #294D82
+  ActorFontColor #14243C
+}
+hide footbox
+
+actor "Игрок" as Player
+participant "Интерфейс и обработчики" as UI
+participant "Объект game" as Game
+
+Player -> UI : Нажать «Начать заново»
+UI -> Game : newGame()
+Game -> Game : this.resetStatistics()
+Game -> Game : this.clearHistory()
+Game -> Game : lastRound = null
+Game -> Game : nextRoundId = 1
+UI -> UI : render()
+UI -> Game : getLastRound()
+Game --> UI : null
+UI -> Game : getStatistics()
+Game --> UI : Нулевые счётчики и winRate = 0
+UI -> Game : getHistory()
+Game --> UI : Пустой массив
+UI --> Player : «Сделайте первый ход.», нули и пустая история
+@enduml

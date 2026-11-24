@@ -1,0 +1,31 @@
+@startuml
+title Очистить историю
+skinparam defaultFontName "Segoe UI"
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor #294D82
+  LifeLineBorderColor #64748B
+  ParticipantBackgroundColor #EFF6FF
+  ParticipantBorderColor #294D82
+  ParticipantFontColor #14243C
+  ActorBorderColor #294D82
+  ActorFontColor #14243C
+}
+hide footbox
+
+actor "Игрок" as Player
+participant "Интерфейс и обработчики" as UI
+participant "Объект game" as Game
+
+Player -> UI : Нажать «Очистить историю»
+UI -> Game : clearHistory()
+Game -> Game : history = []
+UI -> UI : render()
+UI -> Game : getLastRound()
+Game --> UI : Прежний последний раунд или null
+UI -> Game : getStatistics()
+Game --> UI : Текущие счётчики и winRate
+UI -> Game : getHistory()
+Game --> UI : Пустой массив
+UI --> Player : Пустая история, прежние статистика и результат
+@enduml
